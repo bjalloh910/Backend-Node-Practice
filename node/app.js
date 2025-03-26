@@ -1,22 +1,12 @@
-const express = require('express');
-const app = express();
-const PORT = 3000;
+const express = require("express"); // import express 
+const authorRouter = require("./routes/authorRouter");
 
-function multiply(a, b) {
-    return a * b;
-  }
-  
-  function calculateTotal(price, quantity, taxRate) {
-    const subtotal = multiply(price, quantity);
-    const tax = subtotal * taxRate;
-    const total = subtotal + tax;
-    return total;
-  }
-  
-  const price = 10;
-  const quantity = 2;
-  const taxRate = 0.08;
-  
-  const total = calculateTotal(price, quantity, taxRate);
-  console.log("Total:", total);
-  
+const app = express(); // initialize the app variable (app is our sever)
+
+// Mount the router on the /authors path
+app.use("/authors", authorRouter);
+
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`My first Express app - listening on port ${PORT}!`);
+})

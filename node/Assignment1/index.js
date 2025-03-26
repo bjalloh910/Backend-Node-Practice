@@ -1,52 +1,22 @@
-const http = require('node:http'); // this gives you access to the built-in http module so you can create a web server.
-const fs = require('fs');
 
-// Create a local server to receive data from
-const server = http.createServer((req, res) => {
+const express = require('express');
+const path = require('path')
+const basicSever = express();
 
-    res.writeHead(200, {'Content-Type': 'text/html'});
+basicSever.get('/page', (req, res) => {
+    const pageName = req.query.name;
 
-    if(req.url === '/index') {
-        fs.readFile('index.html',(err, data) => {
-            if(err) {
-                res.writeHead(500);
-                res.end('Server error');
-            } else {
-                res.writeHead(200, { 'Content-Type': 'text/html' });
-                res.end(data);
-            }
-        })
-    } else if (req.url === '/about') {
-        fs.readFile('about.html', (err, data) => {
-            if(err) {
-                res.writeHead(500);
-                res.end('Server error');
-            } else {
-                res.writeHead(200, {'Content-Type': 'text/html'});
-                res.end(data);
-            }
-        })
-    } else if (req.url === '/contact-me.html') {
-        fs.readFile('contact-me.html', (err, data) => {
-            if(err) {
-                res.writeHead(500);
-                res.end('Server error');
-            } else {
-                res.writeHead(200, {'Content-Type' : 'text/html'});
-                res.end(data);
-            }
-        }) 
-    } else if(req.url === '/404') {
-        fs.readFile('404.html', (err, data) => {
-            if(err){
-                res.writeHead(500);
-                res.end('Server error');
-            } else {
-                res.writeHead(200, {'Content-Type' : 'text/html'});
-                res.end(data);
-            }
-        })
+    if(pageName === 'index') {
+        res.sendFile(path.join(__dirname, 'index.html'))
+    } else if (pageName === 'about') {
+        res.sendFile(path.join(__dirname, 'about.html'))
+    } else if (pageName === 'contact-me'){
+        res.sendFile(path.join(__dirname, 'contact-me.html'))
+    } else {
+        res.sendFile(path.join(__dirname, '404.html'));
     }
 });
 
-server.listen(8000);
+basicSever.listen(3000, () => {
+    console.log('Server is running at http://localhost:3000');
+})
