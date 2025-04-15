@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <title>Homepage</title>
+  </head>
+  <style>
+    body {
+      background-color: rgb(180, 127, 230);
+      text-align: center;
+    }
+    #message {
+      background-color: rgb(126, 87, 112);
+      color: rgb(32, 27, 27);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      width: 200px;
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+  </style>
+  <body>
+    <div id="message"></div>
+    <%- include('footer')%> 
+
+    <script>
+    const output = document.getElementById("message");
+    const messages = JSON.parse('<%- JSON.stringify(messages) %>');
+    console.log(messages);
+    messages.forEach(msg => {
+      console.log("msg", msg);
+      const div = document.createElement("div");
+      div.innerHTML = `<strong>${msg.user}:</strong> ${msg.text} <br><small>${msg.added}</small><hr>`;
+      output.appendChild(div);
+    })
+  </script> 
+
+  </body>
+</html>
+
